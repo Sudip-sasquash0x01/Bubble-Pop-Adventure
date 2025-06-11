@@ -1,7 +1,7 @@
 # 🫧 Bubble Pop Adventure Pro
 ### Enterprise-Grade Mobile Gaming Platform
 🌟 Live Demo
-[View Live Demo (https://sudip-sasquash0x01.github.io/Bubble-Pop-Adventure/)]
+[View Live Demo(https://sudip-sasquash0x01.github.io/Bubble-Pop-Adventure/)]
 
 
 > **A sophisticated, production-ready mobile gaming platform built with vanilla JavaScript, demonstrating enterprise-level architecture, performance optimization, and scalable design patterns suitable for millions of concurrent users.**
