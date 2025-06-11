@@ -35,10 +35,12 @@ Bubble Pop Adventure Pro is a comprehensive mobile gaming ecosystem that showcas
 
 #### 🏆 Global Leaderboard
 ![Leaderboard System](./visuals/leaderboard.png)
+
 *Dynamic competitive leaderboard with real-time updates and comprehensive player statistics*
 
 #### 🛒 Power-Up Shop
 ![Shop Interface](./visuals/power-up-shop.png)
+
 *Comprehensive monetization system with power-ups, permanent upgrades, and cosmetic themes*
 
 </div>
