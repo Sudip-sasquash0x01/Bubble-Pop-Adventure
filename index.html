@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Bubble Pop Adventure Pro</title>
+    <meta name="description" content="Enterprise-grade bubble popping game with advanced AI and social features">
+    <meta name="theme-color" content="#4A90E2">
+    <link rel="manifest" href="data:application/json,{%22name%22:%22Bubble%20Pop%20Adventure%20Pro%22,%22short_name%22:%22BubblePopPro%22,%22display%22:%22standalone%22,%22orientation%22:%22portrait%22,%22background_color%22:%22%234A90E2%22,%22theme_color%22:%22%234A90E2%22}">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <div class="game-container" id="gameContainer">
+        <div class="header">
+            <div class="header-left">
+                <div class="stat-item">💎 <span id="score">0</span></div>
+                <div class="stat-item">⏱️ <span id="timer">60</span>s</div>
+                <div class="stat-item">🔥 <span id="streak">0</span></div>
+            </div>
+            <div class="header-center">
+                <div class="level-indicator">Level <span id="level">1</span></div>
+            </div>
+            <div class="header-right">
+                <div class="stat-item">💰 <span id="coins">0</span></div>
+                <div class="stat-item">⚡ <span id="energy">100</span></div>
+            </div>
+        </div>
+        <div class="game-area" id="gameArea">
+            <div class="progress-container">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Start Menu -->
+    <div class="menu-overlay" id="startMenu">
+        <div class="menu-content">
+            <div class="menu-title">🫧 Bubble Pop Adventure Pro</div>
+            <div class="menu-subtitle">
+                Next-generation bubble popping with AI, social features, and enterprise-grade gameplay
+            </div>
+            
+            <div class="game-mode-selector" id="gameModeSelector">
+                <div class="mode-card" data-mode="classic">
+                    <div class="mode-icon">🎯</div>
+                    <div class="mode-title">Classic Mode</div>
+                    <div class="mode-description">Traditional bubble popping with progressive difficulty</div>
+                </div>
+                <div class="mode-card" data-mode="survival">
+                    <div class="mode-icon">⚡</div>
+                    <div class="mode-title">Survival Mode</div>
+                    <div class="mode-description">Endless gameplay with dangerous balloons</div>
+                </div>
+                <div class="mode-card" data-mode="zen">
+                    <div class="mode-icon">🧘</div>
+                    <div class="mode-title">Zen Mode</div>
+                    <div class="mode-description">Relaxing, infinite bubble popping</div>
+                </div>
+                <div class="mode-card" data-mode="challenge">
+                    <div class="mode-icon">🏆</div>
+                    <div class="mode-title">Daily Challenge</div>
+                    <div class="mode-description">Special objectives and rewards</div>
+                </div>
+            </div>
+
+            <div class="difficulty-selector" id="difficultySelector">
+                <div class="difficulty-option easy" data-difficulty="easy">
+                    <div class="difficulty-text">🌱 Easy</div>
+                    <div class="difficulty-description">Perfect for beginners</div>
+                </div>
+                <div class="difficulty-option normal selected" data-difficulty="normal">
+                    <div class="difficulty-text">⚖️ Normal</div>
+                    <div class="difficulty-description">Balanced challenge</div>
+                </div>
+                <div class="difficulty-option hard" data-difficulty="hard">
+                    <div class="difficulty-text">🔥 Hard</div>
+                    <div class="difficulty-description">For experienced players</div>
+                </div>
+                <div class="difficulty-option nightmare" data-difficulty="nightmare">
+                    <div class="difficulty-text">💀 Nightmare</div>
+                    <div class="difficulty-description">Nearly impossible</div>
+                </div>
+            </div>
+            
+            <button class="menu-button" onclick="startGame()">🎮 Start Game</button>
+            <button class="menu-button secondary" onclick="showInstructions()">📖 How to Play</button>
+            <button class="menu-button secondary" onclick="showLeaderboard()">🏆 Global Leaderboard</button>
+            <button class="menu-button secondary" onclick="showShop()">🛒 Power-Up Shop</button>
+            <button class="menu-button secondary" onclick="showStats()">📊 Statistics</button>
+        </div>
+    </div>
+
+    <!-- Instructions Menu -->
+    <div class="menu-overlay hidden" id="instructionsMenu">
+        <div class="menu-content">
+            <div class="menu-title">How to Play</div>
+            <div style="text-align: left; margin: 20px 0; color: #666; line-height: 1.6;">
+                <h3>🎯 Basic Gameplay</h3>
+                <p>• Tap bubbles to pop them and score points</p>
+                <p>• Larger bubbles = more points</p>
+                <p>• Match colors for combo bonuses</p>
+                
+                <h3>⚠️ Dangerous Balloons</h3>
+                <p>• Red balloons with bombs subtract points and time</p>
+                <p>• Avoid them or use power-ups to neutralize</p>
+                <p>• Higher difficulties spawn more balloons</p>
+                
+                <h3>⚡ Power-Ups</h3>
+                <p>• 🌟 Time Boost: +15 seconds</p>
+                <p>• ❄️ Freeze: Stops all movement</p>
+                <p>• 🌈 Rainbow: All bubbles become special</p>
+                <p>• 🛡️ Shield: Protects from next balloon</p>
+                
+                <h3>🏆 Scoring System</h3>
+                <p>• Combo multipliers up to 10x</p>
+                <p>• Perfect accuracy bonuses</p>
+                <p>• Level completion rewards</p>
+            </div>
+            <button class="menu-button" onclick="hideInstructions()">Got it!</button>
+        </div>
+    </div>
+
+    <!-- Leaderboard Menu -->
+    <div class="menu-overlay hidden" id="leaderboardMenu">
+        <div class="menu-content">
+            <div class="menu-title">🏆 Global Leaderboard</div>
+            <div id="leaderboardList" style="margin: 20px 0; max-height: 400px; overflow-y: auto;">
+                <!-- Leaderboard entries will be inserted here -->
+            </div>
+            <button class="menu-button" onclick="hideLeaderboard()">Back</button>
+        </div>
+    </div>
+
+    <!-- Enhanced Shop Menu -->
+    <div class="menu-overlay hidden" id="shopMenu">
+        <div class="menu-content">
+            <div class="menu-title">🛒 Power-Up Shop</div>
+            <div style="margin: 20px 0; color: #666;">
+                <div class="stat-item" style="justify-self: center; margin-bottom: 20px;">
+                    💰 Coins: <span id="shopCoins">0</span>
+                </div>
+            </div>
+            
+            <div style="text-align: left; margin: 20px 0;">
+                <h3 style="color: #4A90E2; margin-bottom: 15px;">⚡ Power-Ups</h3>
+                <div class="stats-grid" id="shopItems">
+                    <div class="stat-card shop-item" data-item="timeBoost" data-cost="50">
+                        <div class="stat-value">⏰</div>
+                        <div class="stat-label">Time Boost</div>
+                        <div style="margin-top: 10px;">💰 50 coins</div>
+                        <button class="menu-button" style="margin-top: 10px; padding: 6px 12px; font-size: 11px; min-width: auto; width: 100%;">Buy</button>
+                    </div>
+                    <div class="stat-card shop-item" data-item="freeze" data-cost="75">
+                        <div class="stat-value">❄️</div>
+                        <div class="stat-label">Freeze Power</div>
+                        <div style="margin-top: 10px;">💰 75 coins</div>
+                        <button class="menu-button" style="margin-top: 10px; padding: 6px 12px; font-size: 11px; min-width: auto; width: 100%;">Buy</button>
+                    </div>
+                    <div class="stat-card shop-item" data-item="shield" data-cost="100">
+                        <div class="stat-value">🛡️</div>
+                        <div class="stat-label">Shield</div>
+                        <div style="margin-top: 10px;">💰 100 coins</div>
+                        <button class="menu-button" style="margin-top: 10px; padding: 6px 12px; font-size: 11px; min-width: auto; width: 100%;">Buy</button>
+                    </div>
+                    <div class="stat-card shop-item" data-item="rainbow" data-cost="150">
+                        <div class="stat-value">🌈</div>
+                        <div class="stat-label">Rainbow Mode</div>
+                        <div style="margin-top: 10px;">💰 150 coins</div>
+                        <button class="menu-button" style="margin-top: 10px; padding: 6px 12px; font-size: 11px; min-width: auto; width: 100%;">Buy</button>
+                    </div>
+                    <div class="stat-card shop-item" data-item="doublePoints" data-cost="200">
+                        <div class="stat-value">💫</div>
+                        <div class="stat-label">Double Points</div>
+                        <div style="margin-top: 10px;">💰 200 coins</div>
+                        <button class="menu-button" style="margin-top: 10px; padding: 6px 12px; font-size: 11px; min-width: auto; width: 100%;">Buy</button>
+                    </div>
+                    <div class="stat-card shop-item" data-item="magnet" data-cost="125">
+                        <div class="stat-value">🧲</div>
+                        <div class="stat-label">Coin Magnet</div>
+                        <div style="margin-top: 10px;">💰 125 coins</div>
+                        <button class="menu-button" style="margin-top: 10px; padding: 6px 12px; font-size: 11px; min-width: auto; width: 100%;">Buy</button>
+                    </div>
+                </div>
+
+                <h3 style="color: #50C878; margin: 30px 0 15px 0;">🔧 Permanent Upgrades</h3>
+                <div class="stats-grid">
+                    <div class="stat-card shop-item" data-item="bubbleSize" data-cost="500">
+                        <div class="stat-value">🔍</div>
+                        <div class="stat-label">Bigger Bubbles</div>
+                        <div style="margin-top: 10px;">💰 500 coins</div>
+                        <button class="menu-button" style="margin-top: 10px; padding: 6px 12px; font-size: 11px; min-width: auto; width: 100%;">Upgrade</button>
+                    </div>
+                    <div class="stat-card shop-item" data-item="coinMultiplier" data-cost="750">
+                        <div class="stat-value">💰</div>
+                        <div class="stat-label">Coin Multiplier</div>
+                        <div style="margin-top: 10px;">💰 750 coins</div>
+                        <button class="menu-button" style="margin-top: 10px; padding: 6px 12px; font-size: 11px; min-width: auto; width: 100%;">Upgrade</button>
+                    </div>
+                    <div class="stat-card shop-item" data-item="startingTime" data-cost="1000">
+                        <div class="stat-value">⏰</div>
+                        <div class="stat-label">Extra Start Time</div>
+                        <div style="margin-top: 10px;">💰 1000 coins</div>
+                        <button class="menu-button" style="margin-top: 10px; padding: 6px 12px; font-size: 11px; min-width: auto; width: 100%;">Upgrade</button>
+                    </div>
+                    <div class="stat-card shop-item" data-item="balloonShield" data-cost="1500">
+                        <div class="stat-value">🛡️</div>
+                        <div class="stat-label">Balloon Defense</div>
+                        <div style="margin-top: 10px;">💰 1500 coins</div>
+                        <button class="menu-button" style="margin-top: 10px; padding: 6px 12px; font-size: 11px; min-width: auto; width: 100%;">Upgrade</button>
+                    </div>
+                </div>
+
+                <h3 style="color: #8B5CF6; margin: 30px 0 15px 0;">🎨 Cosmetic Themes</h3>
+                <div class="stats-grid">
+                    <div class="stat-card shop-item" data-item="oceanTheme" data-cost="300">
+                        <div class="stat-value">🌊</div>
+                        <div class="stat-label">Ocean Theme</div>
+                        <div style="margin-top: 10px;">💰 300 coins</div>
+                        <button class="menu-button" style="margin-top: 10px; padding: 6px 12px; font-size: 11px; min-width: auto; width: 100%;">Buy</button>
+                    </div>
+                    <div class="stat-card shop-item" data-item="spaceTheme" data-cost="400">
+                        <div class="stat-value">🚀</div>
+                        <div class="stat-label">Space Theme</div>
+                        <div style="margin-top: 10px;">💰 400 coins</div>
+                        <button class="menu-button" style="margin-top: 10px; padding: 6px 12px; font-size: 11px; min-width: auto; width: 100%;">Buy</button>
+                    </div>
+                    <div class="stat-card shop-item" data-item="forestTheme" data-cost="350">
+                        <div class="stat-value">🌲</div>
+                        <div class="stat-label">Forest Theme</div>
+                        <div style="margin-top: 10px;">💰 350 coins</div>
+                        <button class="menu-button" style="margin-top: 10px; padding: 6px 12px; font-size: 11px; min-width: auto; width: 100%;">Buy</button>
+                    </div>
+                    <div class="stat-card shop-item" data-item="neonTheme" data-cost="600">
+                        <div class="stat-value">✨</div>
+                        <div class="stat-label">Neon Theme</div>
+                        <div style="margin-top: 10px;">💰 600 coins</div>
+                        <button class="menu-button" style="margin-top: 10px; padding: 6px 12px; font-size: 11px; min-width: auto; width: 100%;">Buy</button>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="menu-button secondary" onclick="hideShop()">Back</button>
+        </div>
+    </div>
+
+    <!-- Statistics Menu -->
+    <div class="menu-overlay hidden" id="statsMenu">
+        <div class="menu-content">
+            <div class="menu-title">📊 Your Statistics</div>
+            <div class="stats-grid" id="statsDisplay">
+                <!-- Stats will be populated here -->
+            </div>
+            <button class="menu-button" onclick="hideStats()">Back</button>
+        </div>
+    </div>
+
+    <!-- Game Over Menu -->
+    <div class="menu-overlay hidden" id="gameOverMenu">
+        <div class="menu-content">
+            <div class="menu-title">Game Over!</div>
+            <div class="stats-grid" id="finalStats">
+                <div class="stat-card">
+                    <div class="stat-value" id="finalScore">0</div>
+                    <div class="stat-label">Final Score</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="finalLevel">1</div>
+                    <div class="stat-label">Level Reached</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="bubblesPopped">0</div>
+                    <div class="stat-label">Bubbles Popped</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="bestCombo">0</div>
+                    <div class="stat-label">Best Combo</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="coinsEarned">0</div>
+                    <div class="stat-label">Coins Earned</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="accuracy">0%</div>
+                    <div class="stat-label">Accuracy</div>
+                </div>
+            </div>
+            <div id="newRecord" class="hidden" style="margin: 20px 0; color: var(--gold); font-weight: 700; font-size: 18px;">
+                🏆 NEW HIGH SCORE! 🏆
+            </div>
+            <button class="menu-button" onclick="restartGame()">🔄 Play Again</button>
+            <button class="menu-button secondary" onclick="showMenu()">🏠 Main Menu</button>
+            <button class="menu-button secondary" onclick="shareScore()">📱 Share Score</button>
+        </div>
+    </div>
+    <script src="game.js"></script>
+</body>
+</html>
