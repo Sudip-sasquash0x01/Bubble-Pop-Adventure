@@ -294,10 +294,10 @@ class AccessibilityManager {
 ### **Getting Started**
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/bubble-pop-adventure-pro.git
+git clone https://github.com/Sudip-sasquash0x01/Bubble-Pop-Adventure.git
 
 # Navigate to project directory
-cd bubble-pop-adventure-pro
+cd Bubble-Pop-Adventure
 
 # Start development server (optional - works with any HTTP server)
 python -m http.server 8000
@@ -411,7 +411,7 @@ graph TD
 
 **Seeking opportunities to contribute to FAANG-level gaming platforms and user experience innovations.**
 
-- **GitHub:** [github.com/yourusername](https://github.com/Sudip-sasquash0x01)
+- **GitHub:** [github.com/Sudip-sasquash0x01](https://github.com/Sudip-sasquash0x01)
 - **Email:** sudipstha200@gmail.com
 
 ---
